@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Paas by JamiiTech</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Paas</h1>
+        <h2></h2>
+
+        <section id="downloads">
+          <a href="https://github.com/JamiiTech/paas/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/JamiiTech/paas/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/JamiiTech/paas" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <p>Create a minilab Pages site for your project
+ (function() {
+     var endpoint, endpointRequest, SPClient, UPClient;</p>
+
+<pre><code> // config params for UnifiedPush server
+ var variantId = "b3cc3a16-f2c4-40fa-a4f5-570b87eb8ff5";
+ var variantSecret = "e3adc846-d29a-43be-b3c0-1be986a95716";
+ var unifiedPushUrl = "https://minilab-stackrooter.rhcloud.com/";
+ var simplePushUrl = "";
+
+  // create the 'UnifiedPush' client object:
+ UPClient = AeroGear.UnifiedPushClient(variantId, variantSecret, unifiedPushUrl);
+
+ // onConnect callback function called when SimplePush
+ // successfully establishes connection to the server
+ function spConnect() {
+
+     // use 'PushManager' to request a new PushServer URL endpoint for 'Mail' notifications:
+     endpointRequest = navigator.push.register();
+      // the DOMRequest returns 'successfully':
+     endpointRequest.onsuccess = function( event ) {
+         // extract the endpoint object from the event:
+         endpoint = event.target.result;
+
+         // if it is the first registration, need to register
+         // the 'pushEndpoint' with the UnifiedPush server.
+         if ( endpoint.pushEndpoint ) {
+             // assemble the metadata for registration with the UnifiedPush server
+             var metadata = {
+                 deviceToken: mailEndpoint.channelID,
+                 simplePushEndpoint: mailEndpoint.pushEndpoint
+             };
+
+             var settings = {
+                 success: function() {
+                    //success handler
+                 },
+                 error: function() {
+                    //error handler
+                 }
+             };
+
+             settings.metadata = metadata;
+
+             // register with the server
+             UPClient.registerWithPushServer(settings);
+         } else {
+             console.log("'Endpoint' was already registered!");
+         }
+     };
+     // set the notification handler:
+     navigator.setMessageHandler( "push", function( message ) {
+         if ( message.channelID === mailEndpoint.channelID ) {
+             // let's react on the endpoint
+         }
+     });
+ }
+
+ // onClose callback function:
+ function spClose() {
+     $("#reconnect").show();
+     appendTextArea("\nConnection Lost!\n");
+ }
+
+ SPClient = AeroGear.SimplePushClient({
+     simplePushServerURL: simplePushUrl,
+     onConnect: spConnect,
+     onClose: spClose
+});
+</code></pre>
+
+<p>})();</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
